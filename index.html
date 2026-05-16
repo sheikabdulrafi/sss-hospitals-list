@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+const matchState = !state || h.State === state;
+const matchCity = !city || h.City === city;
+const matchCategory = !category || h.Category === category;
+const matchPPN = !ppn || h.PPN === ppn;
+const matchSearch = h.HospitalName.toLowerCase().includes(search);
+
+return matchState && matchCity && matchCategory && matchPPN && matchSearch;
+});
+
+resultCount.innerText = `${filtered.length} Hospitals Found`;
+
+if(filtered.length===0){
+hospitalGrid.innerHTML=`
+<div class="empty">
+<h3>No Hospitals Found</h3>
+<p>Please try changing filters or search keyword.</p>
+</div>
+`;
+return;
+}
+
+hospitalGrid.innerHTML = filtered.map(h=>`
+<div class="card">
+
+<div class="hospitalTop">
+<div class="hospitalName">${h.HospitalName}</div>
+<div class="code">${h.HospitalCode}</div>
+</div>
+
+<div class="info">
+<div class="infoItem"><strong>Address</strong><span>${h.Address}</span></div>
+<div class="infoItem"><strong>City</strong><span>${h.City}</span></div>
+<div class="infoItem"><strong>State</strong><span>${h.State}</span></div>
+<div class="infoItem"><strong>Pincode</strong><span>${h.Pincode}</span></div>
+<div class="infoItem"><strong>Region</strong><span>${h.Region}</span></div>
+</div>
+
+<div class="bottomRow">
+<div class="pill category">${h.Category}</div>
+<div class="pill ${h.PPN==='YES' ? 'ppnYes':'ppnNo'}">PPN ${h.PPN}</div>
+</div>
+
+</div>
+`).join('');
+}
+
+stateFilter.addEventListener('change', renderHospitals);
+cityFilter.addEventListener('change', renderHospitals);
+categoryFilter.addEventListener('change', renderHospitals);
+ppnFilter.addEventListener('change', renderHospitals);
+searchInput.addEventListener('input', renderHospitals);
+
+renderHospitals();
+
+</script>
+</body>
+</html>
